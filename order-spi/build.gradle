@@ -1,0 +1,59 @@
+def name = 'order-spi'
+
+group 'com.jinlin.spi'
+
+version = '1.5.0'
+
+jar {
+    enabled = true
+    baseName = "$name"
+}
+
+bootJar {
+    enabled = false
+}
+
+apply plugin: 'maven-publish'
+
+
+//打包源码
+task sourcesJar(type: Jar, dependsOn: classes) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+//上传jar命令 gradle publish
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            groupId = "$project.group"
+            artifactId = "$name"
+            version = "$project.version"
+            from components.java
+            artifact sourcesJar
+
+            tasks.withType(Jar) {
+                from(project.projectDir) {
+                    include 'LICENSE.md'
+                    into 'META-INF'
+                }
+            }
+        }
+    }
+    repositories {
+        maven {
+            //指定要上传的maven私服仓库
+            if (project.version.endsWith('-SNAPSHOT')) {
+                url = "http://testm.ahaschool.com:9200/nexus/content/repositories/snapshots/"
+            } else {
+                url = "http://testm.ahaschool.com:9200/nexus/content/repositories/huijiame_repo/"
+            }
+            //认证用户和密码
+            credentials {
+                username 'admin'
+                password 'admin123'
+            }
+        }
+    }
+}
+

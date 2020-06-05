@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+
+    <context id="Mysql" targetRuntime="MyBatis3Simple" defaultModelType="flat">
+        <!-- 指定生成的java文件的编码,没有直接生成到项目时中文可能会乱码 -->
+        <property name="javaFileEncoding" value="UTF-8"/>
+
+        <!--通用 Mapper 插件，可以生成带注解的实体类-->
+        <plugin type="tk.mybatis.mapper.generator.MapperPlugin">
+            <property name="mappers" value="tk.mybatis.mapper.common.Mapper"/>
+            <property name="caseSensitive" value="true"/>
+            <property name="forceAnnotation" value="true"/>
+            <property name="needsSwagger" value="true"/>
+            <!--配置是否启用lombok, 支持如下6种注解-->
+            <!--当配置 Data 后，Getter Setter ToString EqualsAndHashCode 会被忽略-->
+            <property name="lombok" value="Data"/>
+        </plugin>
+<!--        <plugin type="generator.MyMapperPlugin"></plugin>-->
+
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+                        connectionURL="jdbc:mysql://dev:3306/member?useUnicode=true&amp;characterEncoding=utf8"
+                        userId="hjm_dev" password="hjm_dev">
+        </jdbcConnection>
+
+        <javaTypeResolver>
+            <property name="forceBigDecimals" value="true"/>
+            <property name="useJSR310Types" value="true"/>
+        </javaTypeResolver>
+
+
+        <javaModelGenerator targetPackage="com.aha.tech.model.entity" targetProject="src/main/java"/>
+        <sqlMapGenerator targetPackage="mapper.readwrite" targetProject="src/main/resources"/>
+        <javaClientGenerator targetPackage="com.aha.tech.model.mapper" targetProject="src/main/java" type="XMLMAPPER"/>
+
+
+        <table tableName="h_member_notice_strategy"/>
+        <table tableName="h_member_msg_push_time_log"/>
+        <table tableName="h_msg_event"/>
+        <table tableName="h_msg_pre_send"/>
+        <table tableName="h_send_message"/>
+
+
+    </context>
+</generatorConfiguration>

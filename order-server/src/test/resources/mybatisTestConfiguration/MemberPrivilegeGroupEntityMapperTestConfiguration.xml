@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- Mybatis config sample -->
+<!DOCTYPE configuration
+    PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    
+    <environments default = "default">
+        <environment id="default">
+            <transactionManager type="JDBC"/>
+            <dataSource type="UNPOOLED">
+                <property name = "driver" value = "com.mysql.cj.jdbc.Driver"/>
+                <property name="url" value="jdbc:mysql://dev:3306/member"/>
+                <property name="username" value="hjm_dev"/>
+                <property name="password" value="hjm_dev"/>
+            </dataSource>
+        </environment>
+    </environments>
+
+
+
+    <mappers>
+        <mapper resource="mapper/readwrite/MemberPrivilegeGroupMapper.xml"/>
+    </mappers>
+</configuration>

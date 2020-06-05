@@ -1,0 +1,97 @@
+
+buildscript {
+    ext {
+        springBootVersion = '2.0.3.RELEASE'
+    }
+    repositories {
+        mavenLocal()
+        maven {
+            url 'http://testm.ahaschool.com:9200/nexus/content/groups/public/'
+        }
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        classpath("io.spring.gradle:dependency-management-plugin:1.0.5.RELEASE")
+
+//        classpath("com.alibaba.cloud:spring-cloud-alibaba-dependencies:2.1.0.RELEASE")
+
+
+    }
+
+
+
+
+}
+
+allprojects {
+    repositories {
+        mavenLocal()
+        maven {
+            mavenLocal()
+            url 'http://testm.ahaschool.com:9200/nexus/content/groups/public/'
+            maven { url 'http://testm.ahaschool.com:9200/nexus/content/groups/public/' }
+            maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
+            maven { url 'https://repo.spring.io/libs-milestone' }
+            maven { url 'https://jitpack.io' }
+        }
+    }
+
+}
+
+
+
+subprojects {
+
+    apply plugin: 'java'
+    apply plugin: 'idea'
+    apply plugin: 'eclipse'
+    apply plugin: 'maven'
+    apply plugin: 'io.spring.dependency-management'
+    apply plugin: 'org.springframework.boot'
+
+
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+
+    [compileJava, compileTestJava].each()
+            {
+                it.options.encoding = "UTF-8"
+            }
+
+    dependencyManagement {
+        imports {
+            mavenBom "com.alibaba.cloud:spring-cloud-alibaba-dependencies:2.2.0.RELEASE"
+        }
+    }
+
+    dependencies {
+
+        // nacos register center
+        compile("org.springframework.cloud:spring-cloud-starter-alibaba-nacos-discovery:0.9.0.RELEASE") {
+            exclude module:'spring-boot'
+        }
+
+
+        compile('com.alibaba.cloud:spring-cloud-starter-alibaba-seata') {
+            exclude group:'io.seata',module:'seata-all'
+            exclude group:'io.seata',module:'seata-spring-boot-starter'
+        }
+
+        compile group: 'io.seata', name: 'seata-all', version: '1.2.0'
+
+
+        compile("io.seata:seata-spring-boot-starter:1.2.0") {
+            exclude module:'spring-boot'
+        }
+
+
+        compileOnly('org.projectlombok:lombok:1.18.10')
+        // swagger dependency
+        compile('io.swagger:swagger-annotations:1.5.16')
+
+
+        // ahaschool
+        compile('com.aha.public:aha-commons-utils:1.5.0')
+    }
+
+}

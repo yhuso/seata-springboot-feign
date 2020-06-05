@@ -1,0 +1,6 @@
+rootProject.name = 'seata-springboot-feign'
+include 'order-server'
+//include 'order-spi'
+include 'account-server'
+include 'storage-server'
+
